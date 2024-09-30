@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>টাইল হিসাব</title>
+    <style>
+        * {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 400px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+h1 {
+    text-align: center;
+}
+
+label {
+    margin: 10px 0 5px;
+    display: block;
+}
+
+input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+.result {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #e9ecef;
+    border-radius: 4px;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>টাইল হিসাব</h1>
+        <form id="calcForm">
+            <label for="quantity">পরিমাণ:</label>
+            <input type="number" id="quantity" required>
+
+            <label for="height">উচ্চতা (ফুট):</label>
+            <input type="number" id="height" required>
+
+            <label for="tilesHeight">টাইলের উচ্চতা (ইঞ্চি):</label>
+            <input type="number" id="tilesHeight" required>
+
+            <button type="button" id="calculateButton">ফলাফল দেখান</button>
+        </form>
+
+        <div id="result" class="result"></div>
+    </div>
+    <script >
+        document.getElementById('calculateButton').addEventListener('click', function() {
+    const quantity = parseFloat(document.getElementById('quantity').value);
+    const height = parseFloat(document.getElementById('height').value);
+    const tilesHeight = parseFloat(document.getElementById('tilesHeight').value);
+    
+    if (isNaN(quantity) || isNaN(height) || isNaN(tilesHeight) || tilesHeight <= 0) {
+        alert("দয়া করে সঠিক সংখ্যা প্রবেশ করুন!");
+        return;
+    }
+    
+    const feetToInch = height * 12;
+    const howManyLine = feetToInch / tilesHeight;
+    const perLineTilesNeed = quantity / howManyLine;
+
+    const deco = perLineTilesNeed * 1;
+    const light = perLineTilesNeed * Math.floor((howManyLine - 1) / 2);
+    const dip = quantity - (deco + light);
+
+    const resultDiv = document.getElementById('result');
+    resultDiv.innerHTML = `
+        <strong>ফলাফল:</strong><br>
+        কতগুলো ডেকো: ${Math.round(deco)}<br>
+        কতগুলো লাইট: ${Math.round(light)}<br>
+        কতগুলো ডিপ: ${Math.round(dip)}
+    `;
+});
+
+    </script>
+</body>
+</html>
